@@ -1,0 +1,108 @@
+#include <cstdlib>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+    void Sort(vector<int>&V) {
+    int temp,item;
+    for (int counter = 1; counter < V.size(); counter++) {
+        temp=V[counter];
+        item=counter-1;
+        while(item >=0 && V[item] > temp) {
+            swap(V[item+1],V[item]);
+            item--;
+        }
+    }
+
+}
+int Search(vector<int>&V, int key) {
+    bool flag =false;
+    int l, r;
+    l=0;
+    r=9;
+    int mid;
+    while((l<=r) && (flag !=true)) {
+        mid=(l+r)/2;
+        if (V[mid] == key) flag = true;
+        if(V[mid] > key) r=mid - 1;
+        else l = mid+1;
+    }
+    if(flag) {
+    cout << "индекс элемента" << key << "в массиве имеет место " << endl;
+    return mid;
+    }
+    else {
+        cout << "извините такого элемента в массиве нет" << endl;
+    return 1;
+    }
+
+}
+void PPD(vector<int>&A, vector<int>&B, vector<int>&C) {
+    int i=0;
+    while (i < max(A.size(),B.size())) {
+        if (A[i]==B[i]) {
+        C.push_back(A[i]);
+        i++;
+        }
+        else i++;
+    }
+}
+void Zapolnitel(vector<vector<float>>&Matrix, int strok, int stolbcov){
+    for (int i=0; i<strok; i++) {
+        Matrix[i].resize(stolbcov);
+        for(int j=0; j<stolbcov; j++) {
+            Matrix[i][j]=rand() % 666;
+            cout<<Matrix[i][j]<<" ";
+        }
+        cout << endl;
+    }
+}
+
+void reshatel(vector<vector<float>>&Matrix, int stolbcov, int strok) {
+    for(int j=0; j < stolbcov; j++) {
+        for(int i=j+1; i < strok; i++) {
+            if(Matrix[j][j]!=0){
+                float l=Matrix[i][j]/Matrix[j][j];
+                for(int k=j;k<strok;k++) {
+                Matrix[i][j]-=Matrix[j][k]*l;
+                }
+            }
+        }
+    }
+}
+
+int main() {
+    vector<int> V;
+    for (int i=0; i < 10; i++) {
+        V.push_back(rand() % 10);
+    }
+    for (int i=0; i< V.size(); i++) {
+        cout << V[i] << endl;
+    }
+    Sort(V);
+    for (int i=0; i< V.size(); i++) {
+        cout << V[i] << endl;
+    }
+    int key;
+    cin >> key;
+    Search(V, key);
+    vector<int> B;
+    vector<int> A;
+    for (int i=0; i < 100; i++) {
+        A.push_back(rand() % 10);
+        B.push_back(rand() % 9);
+    }
+    vector<int> C;
+    PPD(A,B,C);
+    for (int i=0; i< C.size(); i++) {
+        cout << C[i] << " ";
+    }
+    int strok, stolbcov;
+    cin >> strok >> stolbcov;
+    vector<vector<float>>Matrix(strok);
+
+
+
+
+    return 0;
+}
