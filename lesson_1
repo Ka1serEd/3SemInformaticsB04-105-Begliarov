@@ -18,7 +18,7 @@ int main()
     // Упражнение 3 
     */
     double a, b, c;
-    cout << "ax^2+bx+c=0, введите a, b, c" << endl;
+    cout << "ax^2+bx+c=0, enter a, b, c" << endl;
     cin >> a >> b >> c;
     double D = b*b - 4*a*c;
     if (a==0) {
@@ -26,7 +26,7 @@ int main()
         cout << q;
     }
     else if (D<0) {
-        cout << "Решений нет";
+        cout << "No roots";
     }
     else if (D==0) {
         cout << "x_0 = "<< (-1)*b/(2*a);
@@ -35,6 +35,33 @@ int main()
         cout << "x_1 = " << ((-1)*b + sqrt(D))/(2*a) << " x_2 = " <<((-1)*b-sqrt(D))/(2*a);
     }
     // Упражнение 2 
+    int num;
+	int value;
+	cout << "Please choose what unit of measurement do you want to transfer. Type one of the following numbers:" << endl;
+	cout << "1. Mass in kilogramms to weight in Newtons." << endl;
+	cout << "2. Time in hours to time in minutes." << endl;
+	cout << "3. Energy in Joules to energy in electronvolts" << endl;
+	cin >> num;
+	cout << "Please enter your value" << endl;
+	cin >> value;
+	switch (num) {
+	default:
+		cout << "You have choosen wrong number";
+		break;
+
+	case 1: 
+		cout << value * 9.81;
+		break;
+	case 2: 
+		cout << value * 60;
+		break;
+	case 3: 
+		cout << value * 6.242e+18;
+		break;
+
+	}
+	cout << "\n" ;
+    // упражнение 1
     
     return 0;
 }
