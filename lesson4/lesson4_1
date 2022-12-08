@@ -1,0 +1,51 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+struct ComplexNumber{ //аддитивная группа комплексных чисел
+	ComplexNumber(float a,float b = 0): a{ a },b{ b }
+	{
+
+	}
+	void printNumber() const
+	{
+		cout<< a<<" + "<<b<<"*i";
+	}
+	friend ComplexNumber operator+(const ComplexNumber& number1, const ComplexNumber& number2)
+	{
+		return ComplexNumber{number1.a+number2.a,number1.b+number2.b};
+	}
+	ComplexNumber operator+(const float numberToAdd) const
+	{
+		return ComplexNumber{a+numberToAdd,b};
+	}
+	float getAbsValue() const
+	{
+		return sqrt(pow(a,2)+pow(b,2));
+	}
+	ComplexNumber getMirror() const
+	{
+		return ComplexNumber{a,-b};
+	}
+	float a;
+	float b;
+};
+
+int main()
+{
+	ComplexNumber alpha = {5,2};
+	ComplexNumber betta = {3,4};
+	int gamma = 5;
+	cout<<"First complex number(alpha) is:";
+	alpha.printNumber();
+	cout<< endl<<"Second complex number(betta) is:";
+	betta.printNumber();
+	cout<<endl<<"Result of alpha+betta: ";
+	(alpha+betta).printNumber();
+	cout<<endl<<"Non-complex number gamma is: "<<gamma;
+	cout<<endl<<"Result of alpha+gamma: ";
+	(alpha+gamma).printNumber();
+	cout<<endl<<"alpha absolute value is: "<<alpha.getAbsValue();
+	cout<<endl<<"betta mirrored complex number is: ";
+	betta.getMirror().printNumber();
+	return 0;
+}
