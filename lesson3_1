@@ -4,12 +4,29 @@ using namespace std;
 //проблема при выборе между float и double
 void f(float i) {};
 void f(double i) {};
-
-
+char g(unsigned char ch)
+{
+    return ch-1;
+}
+char g(char ch)
+{
+    return ch+1;
+}
+int h(int i)
+{
+return i;
+}
+int h(int i, int j=1)
+{
+return i*j;
+}
 int main() {
     bool a = 1;
     int b = 4;
     char c = 6;
+    g(88);
+    h(1,2);
+    h(1);
     f(a);
     f(b);
     f(c);
