@@ -41,11 +41,8 @@ int main() {
     dat.day = ara[2];
     dat.month = ara[3];
     dat.year = ara[4];
-    //why not work(( 
-    // delete[] ara;
-
+    
     cout << "Your stored data: " << endl;
-    //will work fine for a century
     string a = (dat.month > 10) ? "." : ".0";
     string c = (dat.day > 10) ? " " : " 0";
     string d = (dat.hour > 10) ? "" : "0";
