@@ -1,0 +1,188 @@
+// Matrix.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+#include <iostream>
+#include <vector>
+#include <iterator>
+using namespace std;
+
+class Matrix {
+    public:
+        int n;
+        int m;
+        vector<vector<int>> Mat;
+        Matrix() {
+            int n = 0;
+            int m = 0;
+            Mat.resize(n, vector<int>(m, 0));
+    }
+        Matrix(int n,int m) {
+            this->n = n;
+            this->m = m;
+            Mat.resize(n, vector<int>(m,0));
+        }
+        Matrix(int n) {
+            this->n = n;
+            this->m = n;
+            Mat.resize(n, vector<int>(m, 0));
+            for (int i = 0; i < n; i++) {
+                Mat[i][i] = 1;
+            }
+        }
+        void setMatrix(vector<vector<int>>& v) {
+            m = v[0].size();
+            n = v.size();
+            Mat.resize(n);
+            for (int i = 0; i < n; i++) {
+                Mat[i].resize(m, 0);
+            }
+            for (int i = 0; i < v.size(); i++) {
+                for (int j = 0; j < v[0].size(); j++) {
+                    Mat[i][j] = v[i][j];
+                }
+            }
+        }
+        void getMatrix() const {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    cout << Mat[i][j] << " ";
+                }
+                cout << endl;
+            }
+        }
+        
+        Matrix operator=(const Matrix& A) {
+            this->m = A.m;
+            this->n = A.n;
+            Mat.resize(n);
+            for (int i = 0; i < n; i++) {
+                Mat[i].resize(m, 0);
+            }
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < m; j++) {
+                        Mat[i][j] = A.Mat[i][j];
+                    }
+                }
+                return *this;
+        }
+        Matrix operator*(const Matrix& A) {
+            if (A.m == this->n) {
+                Matrix temp(A.n, this->m);
+                for (int i = 0; i < A.n; i++) {
+                    for (int j = 0; j < this->m; j++) {
+                        temp.Mat[i][j] = 0;
+                        for (int k = 0; k < A.m; k++) {
+                            temp.Mat[i][j] = temp.Mat[i][j] + A.Mat[i][k] * (this->Mat[k][j]);
+                        }
+                    }
+                    cout << endl;
+                }
+                return temp;
+            }
+            else return 0;
+        }
+        friend Matrix pow(const Matrix& A, int p) {
+            if (A.n == A.m) {
+                Matrix temp(A.n);
+            for (int i = 0; i < p; i++) {
+                temp = temp * A;
+                }
+            return temp;
+            }
+        }
+        friend Matrix getMinor(const Matrix& A, int k, int p) {
+                Matrix temp(A.n-1, A.n - 1);
+                for (int i = 0; i < A.n; i++) {
+                    if (i < k-1) {
+                        for (int j = 0; j < A.n; j++) {
+                            if (j < p-1) {
+                                temp.Mat[i][j] = A.Mat[i][j];
+                            }
+                            else if (j > p-1) {
+                                temp.Mat[i][j - 1] = A.Mat[i][j];
+                            }
+                        }
+                    }
+                    else if (i > k-1) {
+                        for (int j = 0; j < A.n; j++) {
+                            if (j < p-1) {
+                                temp.Mat[i-1][j] = A.Mat[i][j];
+                            }
+                            else if (j > p-1) {
+                                temp.Mat[i-1][j - 1] = A.Mat[i][j];
+                            }
+                        }
+                    }
+                }
+                return temp;
+        }
+        friend int det(const Matrix& A) {
+            int determ = 0;
+            if (A.n == A.m) {
+                for (int j = 0; j < A.n; j++) {
+                    if (A.n != 2) {
+                        Matrix temp;
+                        temp = getMinor(A, 1, j);
+                        determ = determ + pow(-1, j) * A.Mat[1][j] * det(temp);
+                    }
+                    if (A.n == 2) {
+                        determ = determ + A.Mat[0][0] * A.Mat[1][1] - A.Mat[0][1] * A.Mat[1][0];
+                    }
+                }
+                return determ;
+            }
+        }
+        /*friend Matrix operator+(const Matrix& A, const Matrix& B) {
+            if (A.n == B.n && A.m == B.m) {
+                Matrix TEMP(A.n, A.m);
+                    for (int i = 0; i < TEMP.n; i++) {
+                        for (int j = 0; j < TEMP.m; j++) {
+                            TEMP.Mat[i][j] = B.Mat[i][j] + A.Mat[i][j];
+                    }
+                    cout << endl;
+                }
+                return(TEMP);
+            }
+            else return 0;
+        }*/
+        Matrix operator+(const Matrix& A) {
+            Matrix temp(A.n,A.m);
+            if (A.n == this->n && A.m == this->m) {
+                for (int i = 0; i < A.n; i++) {
+                    for (int j = 0; j < A.m; j++) {
+                        temp.Mat[i][j] =this->Mat[i][j]+A.Mat[i][j];
+                    }
+                    cout << endl;
+                }
+                return temp;
+            }
+            else return 0;
+        }
+       
+};
+
+int main()
+{
+    Matrix B(3);
+    Matrix A;
+    Matrix C;
+    vector < vector<int>> v{ {2,1,3},{3,2,1},{1,2,3} };
+    vector < vector<int>> l{ {0,1,1,1,1}, {0,0,1,1,1},{0,0,0,1,1},{0,0,0,0,1},{0,0,0,0,0} };
+    A.setMatrix(l);
+    C.setMatrix(v);
+    A = pow(A, 4);
+    cout << "A^4=" << endl;
+    A.getMatrix();
+    A.setMatrix(l);
+    getMinor(C, 1, 2).getMatrix();
+    B= getMinor(C, 1, 2);
+    B.getMatrix();
+    B = getMinor(A, 1, 1);
+    B.getMatrix();
+    cout << "Hello World!";
+}
+
+
+
+
+
+
