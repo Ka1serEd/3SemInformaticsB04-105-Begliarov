@@ -157,7 +157,12 @@ class Matrix {
             }
             else return 0;
         }
-       
+    vector<int>& operator[](int i) {
+        return this->Mat[i];
+    }
+    int& operator()(int i, int j) {
+        return this->Mat[i][j];
+    }
 };
 
 int main()
