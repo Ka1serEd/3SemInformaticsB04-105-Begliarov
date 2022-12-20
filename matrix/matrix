@@ -116,15 +116,14 @@ public:
         }
         return temp;
     }
-
     friend int det(const Matrix& A) {
-        int determ=0;
+        int determ = 0;
         if (A.n == A.m) {
             for (int j = 0; j < A.n; j++) {
                 if (A.n != 2) {
                     Matrix temp;
-                    temp = getMinor(A, 1, j+1);
-                    determ = determ + pow(-1, j) * A.Mat[1][j] * det(temp);
+                    temp = getMinor(A, 1, j + 1);
+                    determ = determ + pow(-1, j) * A.Mat[0][j] * det(temp);
                 }
                 if (A.n == 2) {
                     determ = A.Mat[0][0] * A.Mat[1][1] - A.Mat[0][1] * A.Mat[1][0];
@@ -165,6 +164,33 @@ public:
     int& operator()(int i, int j) {
         return this->Mat[i][j];
     }
+    friend ostream& operator <<(ostream& os, Matrix& A) {
+        for (int i = 0; i < A.n; i++) {
+            for (int j = 0; j < A.m; j++) {
+                os << A[i][j] << " ";
+            }
+            os <<endl;
+        }
+        return os;
+    }
+    friend istream& operator >>(istream& is, Matrix& A) {
+        cout << "Введите число строк\n";
+        is >> A.n;
+        cout << "Введите число столбцов\n";
+        is >> A.m;
+        A.Mat.resize(A.n);
+        for (int i = 0; i < A.n; i++) {
+            A.Mat[i].resize(A.m);
+        }
+        cout << "Вбейте числа в матрицу\n";
+        for (int i = 0; i < A.n; i++) {
+            for (int j = 0; j < A.m; j++) {
+                is >> A.Mat[i][j];
+            }
+        }
+        return is;
+       
+    }
 };
 
 int main()
@@ -175,9 +201,11 @@ int main()
     vector < vector<int>> v{ {1,0,0},{0,2,0},{0,0,6} };
     vector < vector<int>> l{ {3,4,1,1,1}, {2,9,1,1,1},{4,5,3,1,1},{7,20,9,0,1},{0,0,2,0,3} };
     A.setMatrix(l);
-    A.setMatrix(v);
     cout << "A=" << endl;
     A.getMatrix();
     B = getMinor(A, 1, 1);
-    cout << "detA=" << det(A);
+    cout << "detA=" << det(A) << endl;
+    cin >> C;
+    cout << A;
+    cout << C;
 }
